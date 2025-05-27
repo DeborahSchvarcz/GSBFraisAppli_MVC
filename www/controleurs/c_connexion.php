@@ -25,12 +25,12 @@ case 'demandeConnexion':
     break;
 case 'valideConnexion':
     $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_SPECIAL_CHARS);
-    $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_SPECIAL_CHARS);
+    $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_SPECIAL_CHARS);//filtrer mdp
     $visiteur = $pdo->getInfosVisiteur($login, $mdp);
     $comptable = $pdo->getInfosComptable($login, $mdp);
     if (!is_array($visiteur)&& (!is_array($comptable))) {
-        ajouterErreur('Login ou mot de passe incorrect'); //Ajoute dans le tableau de erreurs ce message s'erreur 
-        include 'vues/v_erreurs.php'; //affiche l'erreur
+        ajouterErreur('Login ou mot de passe incorrect'); //Ajoute dans le tableau des erreurs ce message d'erreur avec la fonction ajouter erreur 
+        include 'vues/v_erreurs.php'; //redirige vers la vue d'erreur et l affiche
         include 'vues/v_connexion.php';//redirige vers connexion
     } else if(is_array($visiteur)){
         $id = $visiteur['id'];

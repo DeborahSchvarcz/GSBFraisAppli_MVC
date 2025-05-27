@@ -1,13 +1,13 @@
 <?php
 /**
- * Vue Accueil
+ * Vue Accueil comptable
  *
  * PHP Version 7
  *
  * @category  PPE
  * @package   GSB
  * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr> et Schvarcz Déborah
+ * @author    José GIL <jgil@ac-nice.fr> & Schvarcz Déborah
  * @copyright 2017 Réseau CERTA
  * @license   Réseau CERTA
  * @version   GIT: <0>
@@ -39,7 +39,7 @@
                            class="btn btn-success btn-lg" role="button">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <br>Valider la fiche des frais</a>
-                        <a href="index.php?uc=mettreEnPaiment&action="
+                        <a href="index.php?uc=mettreEnPaiement&action=choixFiche"
                            class="btn btn-primary btn-lg" role="button" style="background-color: orange ; border-color: orange">
                             <span class="glyphicon glyphicon-list-alt"></span>
                             <br>Mettre en paiement</a>

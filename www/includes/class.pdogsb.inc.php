@@ -37,13 +37,26 @@
  * @link      http://www.php.net/manual/fr/book.pdo.php PHP Data Objects sur php.net
  */
 class PdoGsb {
-
+//connexion en localhost
     private static $serveur = 'mysql:host=localhost';
     private static $bdd = 'dbname=gsb_frais';
     private static $user = 'userGsb';
     private static $mdp = 'secret';
     private static $monPdo;
     private static $monPdoGsb = null;
+  
+    
+    //connexion externe
+    /*private static $serveur = 'mysql:host=db5017892050.hosting-data.io';
+    private static $bdd = 'dbname=dbs12930308';
+    private static $user = 'dbu1557533';
+    private static $mdp = 'SchvarczDvorah2025';
+    private static $monPdo;
+    private static $monPdoGsb = null;
+     * /
+    
+   
+    
 
     /**
      * Constructeur privé, crée l'instance de PDO qui sera sollicitée
@@ -228,6 +241,7 @@ class PdoGsb {
         $requetePrepare->execute();  
         return $requetePrepare->fetchAll();
     }
+    
 
     /**
      * Retourne la somme du montant des frais hors forfait
@@ -295,6 +309,36 @@ class PdoGsb {
             $requetePrepare->execute();
         }
     }
+    
+    
+    /**
+     * Met à jour la table ficheFrais
+     * Met à jour le montant total 
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param Array  $lesFrais   tableau associatif de clé idFrais et
+     *                           de valeur la quantité pour ce frais
+     *
+     * @return null
+     */
+    public function majMontantsValides($idVisiteur,$mois,$montantTotal) {
+       
+            $requetePrepare = PdoGSB::$monPdo->prepare(
+                    'UPDATE fichefrais '
+                    . 'SET fichefrais.montantvalide = :montantTotal '
+                    . 'WHERE fichefrais.idvisiteur = :unIdVisiteur '
+                    . 'AND fichefrais.mois = :unMois '
+                    
+            );
+            $requetePrepare->bindParam(':montantTotal', $montantTotal, PDO::PARAM_INT);
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            
+        }
+    
+       
 
     /**
      * Met à jour la table ligneFraisHorsForfait
@@ -538,6 +582,7 @@ class PdoGsb {
 
         return $lesVisiteurs;
     }
+    
 
     /**
      * Retourne les informations d'une fiche de frais d'un visiteur pour un
@@ -589,5 +634,63 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+    /**
+     * Retourne la liste de tous les visiteurs qui ont des fiches validées.
+     *
+     * @return array     la liste de tous les visiteurs sous forme de tableau associatif.
+     */
+    public function getLesVisiteursDontFicheVA()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT *'
+            .'FROM visiteur join fichefrais on(id=idvisiteur)'
+            .'WHERE fichefrais.idetat="VA"'  
+            .'ORDER BY nom'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
+    }
+
+    
+ /**
+     * Retourne la liste des mois dont les fiches validées.
+     *
+     * @return array     la liste de tous les visiteurs sous forme de tableau associatif.
+     */   
+public function getLesMoisDontFicheVA()
+    {
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT distinct fichefrais.mois AS mois FROM fichefrais '
+            . 'WHERE fichefrais.idetat="VA"'    
+            . 'ORDER BY fichefrais.mois desc'
+        );
+        $requetePrepare->execute();
+        $lesMois = array();
+        while ($laLigne = $requetePrepare->fetch()) {
+            $mois = $laLigne['mois'];
+            $numAnnee = substr($mois, 0, 4);
+            $numMois = substr($mois, 4, 2);
+            $lesMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+        }
+        return $lesMois;
+    }
+   
+    /**
+     * Retourne le nom et le prenom d'un visiteur .
+     *
+     * @return array     .
+     */
+    public function getUnVisiteur($idVisiteur){
+        $requetePrepare = PdoGSB::$monPdo->prepare(
+            'SELECT nom, prenom from visiteur where id=:unIdVisiteur'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
     }
 }

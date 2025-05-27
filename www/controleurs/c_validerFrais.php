@@ -46,14 +46,14 @@ switch ($action) {
         $lesMois = getLesDouzesDerniersMois($mois2);
         $lesFraisForfait = $pdo->getLesFraisForfait($visiteur, $mois);
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($visiteur, $mois);
-        $nbJustificatif = $pdo->getNbjustificatifs($visiteur, $mois);
-        var_dump($nbJustificatif);
+        
 
         if (empty($lesFraisForfait) && empty($lesFraisHorsForfait)) {
             ajouterErreur('Pas de fiche de frais pour ce visiteur ce mois');
             include 'vues/v_erreurs.php';
             header("Refresh: 2;URL=index.php?uc=validerFrais&action=choisirVisiteurMois");
         } else {
+            $nbJustificatif = $pdo->getNbjustificatifs($visiteur, $mois);
             include 'vues/v_ficheFraisVisiteur.php';
         }
 
@@ -156,7 +156,11 @@ switch ($action) {
         $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
         $totalFraisHorsForfait = $pdo->montantFraisForfait($idVisiteur, $mois);
         $totalFraisForfait = $pdo->montantHorsForfait($idVisiteur, $mois);
-        $montantTotal = $totalFraisHorsForfait+$totalFraisForfait ;
-        var_dump($montantTotal);
+        $montantTotal = $totalFraisHorsForfait[0][0]+$totalFraisForfait[0][0] ;
+        $visiteur = $pdo->getUnVisiteur($idVisiteur);
+        $nom = $visiteur[0]['nom'];
+        $prenom= $visiteur[0]['prenom'];
+        $pdo->majMontantsValides($idVisiteur, $mois,$montantTotal);
+        $pdo->majEtatFicheFrais($idVisiteur, $mois, 'VA');
         include 'vues/v_fraisValides.php';
 }

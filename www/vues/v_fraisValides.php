@@ -16,23 +16,14 @@
 ?>
 </header>
 <center>
-    <?php
-    $lesVisiteurs = $pdo->getLesVisiteurs();
-    foreach ($lesVisiteurs as $unVisiteur) {
-        $id = $unVisiteur['id'];
-        $nom = $unVisiteur['nom'];
-        $prenom = $unVisiteur['prenom'];
-    }
-    ?>
     <h3> Fiche de frais validée avec succès !</h3>
     <h2> La fiche de frais du <small> - Visiteur :
     <?php
     echo $nom . ' ' . $prenom;
-    ?></small> a été validée . <h2/>
-    <h4> Les frais hors forfaits signalés comme 'refusés' ont été reporter pour le mois prochain . </h4>
-<?php
-    echo $montantTotal . ' ' . $prenom;
-    ?>
+    ?></small> a été validée pour un montant de : <?php
+    echo $montantTotal 
+    ?> € <h2/>
+
 
 </center>
 

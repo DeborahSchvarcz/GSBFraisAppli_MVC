@@ -28,6 +28,12 @@
     </head>
     <body>
         <div class="container">
+           <h1>
+                    <img src="./images/logo.jpg"
+                         class="img-responsive center-block"
+                         alt="Laboratoire Galaxy-Swiss Bourdin"
+                         title="Laboratoire Galaxy-Swiss Bourdin">
+                </h1>
             <?php
             $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_SPECIAL_CHARS);
             if ($estConnecteV ) {
@@ -36,9 +42,7 @@
                 <div class="row vertical-align">
                     <div class="col-md-4">
                         <h1>
-                            <img src="./images/logo.jpg" class="img-responsive" 
-                                 alt="Laboratoire Galaxy-Swiss Bourdin" 
-                                 title="Laboratoire Galaxy-Swiss Bourdin">
+                            
                         </h1>
                     </div>
                     <div class="col-md-8">
@@ -79,9 +83,6 @@
                 <div class="row vertical-align">
                     <div class="col-md-4">
                         <h1>
-                            <img src="./images/logo.jpg" class="img-responsive" 
-                                 alt="Laboratoire Galaxy-Swiss Bourdin" 
-                                 title="Laboratoire Galaxy-Swiss Bourdin">
                         </h1>
                     </div>
                     <div class="col-md-8" >
@@ -100,7 +101,7 @@
                                 </a>
                             </li>
                             <li <?php if ($uc == 'metteEnPaiement') { ?>class="active"<?php } ?>>
-                                <a href="index.php?uc= metteEnPaiement & action="style="color:orange">
+                                <a href="index.php?uc=mettreEnPaiement&action=choixFiche"style="color:orange">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Mettre en paiement
                                 </a>
@@ -121,12 +122,7 @@
             
         } {
                 ?>   
-                <h1>
-                    <img src="./images/logo.jpg"
-                         class="img-responsive center-block"
-                         alt="Laboratoire Galaxy-Swiss Bourdin"
-                         title="Laboratoire Galaxy-Swiss Bourdin">
-                </h1>
+                
                 <?php
             }
            

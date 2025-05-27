@@ -1,6 +1,6 @@
 <?php
 /**
- * Vue Accueil
+ * Vue accueil visiteur
  *
  * PHP Version 7
  *
